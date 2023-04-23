@@ -1,4 +1,4 @@
-from minigpt4_interface import MiniGPT4Interface
+from ModaFew import MiniGPT4Interface
 
 
 if __name__ == '__main__':
@@ -11,7 +11,12 @@ if __name__ == '__main__':
 
     gpu_id = '2'
     time_begin = time.time()
-    interface = MiniGPT4Interface(config_path='./minigpt4_interface/eval_config.yaml', gpu_id=gpu_id)
+    prompt_path = "/data/share/pyz/ModaFew/ModaFew/minigpt4_interface/minigpt4/prompts/alignment.txt"
+    ckpt = "/data/share/pyz/ModaFew/checkpoint/prerained_minigpt4_7b.pth"
+    llama_model = "/data/share/pyz/ModaFew/checkpoint/vicuna-7b"
+    interface = MiniGPT4Interface(config_path='/data/share/pyz/ModaFew/ModaFew/minigpt4_interface/eval_config.yaml', 
+                                  gpu_id=gpu_id)
+    # interface = MiniGPT4Interface(config_path='./minigpt4_interface/eval_config.yaml', gpu_id=gpu_id)
 
 
     """
@@ -45,4 +50,4 @@ if __name__ == '__main__':
     print(f'The few-shot answer: {answer}')
 
     answer = interface.zero_shot_generation(query_image, query=query)
-    print(f'The zero-shot anser: {answer}')
+    print(f'The zero-shot answer: {answer}')
