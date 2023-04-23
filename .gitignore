@@ -1,0 +1,3 @@
+checkpoint/*
+*.pyc
+.DS_Store
