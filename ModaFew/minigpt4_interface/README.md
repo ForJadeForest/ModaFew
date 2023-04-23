@@ -12,7 +12,7 @@ from minigpt4_interface import MiniGPT4Interface
 
 device = '0'
 time_begin = time.time()
-interface = MiniGPT4Interface(config_path='minigpt4_interface/eval_config.yaml', device=device)
+interface = MiniGPT4Interface(config_path='/path/to/ModaFew/ModaFew/minigpt4_interface/minigpt4/prompts/alignment.txt', device=device)
 
 demo_image_one = Image.open(
     requests.get(
@@ -35,9 +35,7 @@ query_image = Image.open(
 )
 example_images = [demo_image_one, demo_image_two]
 
-texts_input = [
-    ["An image of two cats.", "An image of a bathroom sink."]
-]
+texts_input = ["An image of two cats.", "An image of a bathroom sink."]
 query='What\'s the object in the image?'
 answer = interface.few_shot_generation(example_images, texts_input, query_image, query=query)
 print(f'The few-shot answer: {answer}')
@@ -45,6 +43,42 @@ print(f'The few-shot answer: {answer}')
 answer = interface.zero_shot_generation(query_image, query=query)
 print(f'The zero-shot anser: {answer}')
 ```
+
+## Init 
+For init the Interface, you should give a config_path. The important args you should set are: prompt_path, ckpt, llama_model. 
+
+For weight download, please refer https://github.com/Vision-CAIR/MiniGPT-4.
+```yaml
+model:
+  arch: mini_gpt4
+  model_type: pretrain_vicuna
+  freeze_vit: True
+  freeze_qformer: True
+  max_txt_len: 160
+  end_sym: "###"
+  low_resource: True
+  prompt_template: '###Human: {} ###Assistant: '
+  # This is the default prompt path
+  prompt_path: "/path/to/ModaFew/ModaFew/minigpt4_interface/minigpt4/prompts/alignment.txt"
+  ckpt: "/path/to/prerained_minigpt4_7b.pth"
+  llama_model: "/path/to/checkpoint/vicuna-7b"
+
+
+
+datasets:
+  cc_sbu_align:
+    vis_processor:
+      train:
+        name: "blip2_image_eval"
+        image_size: 224
+    text_processor:
+      train:
+        name: "blip_caption"
+
+run:
+  task: image_text_pretrain
+```
+
 
 ## Method 
 1. `zero_shot_generation(self, image, query, **kwargs)`
