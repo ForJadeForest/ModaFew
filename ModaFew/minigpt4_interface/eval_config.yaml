@@ -6,9 +6,11 @@ model:
   max_txt_len: 160
   end_sym: "###"
   low_resource: True
-  prompt_path: "minigpt4_interface/minigpt4/prompts/alignment.txt"
   prompt_template: '###Human: {} ###Assistant: '
-  ckpt: 'checkpoint/prerained_minigpt4_7b.pth'
+  prompt_path: "/data/share/pyz/ModaFew/ModaFew/minigpt4_interface/minigpt4/prompts/alignment.txt"
+  ckpt: "/data/share/pyz/ModaFew/checkpoint/prerained_minigpt4_7b.pth"
+  llama_model: "/data/share/pyz/ModaFew/checkpoint/vicuna-7b"
+
 
 
 datasets:
