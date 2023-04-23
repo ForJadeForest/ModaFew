@@ -23,3 +23,11 @@ images = [[Image]]
 texts = [[Text]]
 interface.generation(images, texts, max_new_tokens=20, num_beams=1)
 ```
+
+## Install
+```bash
+git clone https://github.com/ForJadeForest/ModaFew.git
+cd ModaFew
+pip install -r requirements.txt
+pip install -e .
+```
