@@ -27,12 +27,12 @@ class Registry:
 
         Usage:
 
-            from LargeModelLoad.minigpt4_interface.minigpt4.common.registry import registry
-            from LargeModelLoad.minigpt4_interface.minigpt4.datasets.base_dataset_builder import BaseDatasetBuilder
+            from ModaFew.minigpt4_interface.minigpt4.common.registry import registry
+            from ModaFew.minigpt4_interface.minigpt4.datasets.base_dataset_builder import BaseDatasetBuilder
         """
 
         def wrap(builder_cls):
-            from LargeModelLoad.minigpt4_interface.minigpt4.datasets.builders.base_dataset_builder import BaseDatasetBuilder
+            from ModaFew.minigpt4_interface.minigpt4.datasets.builders.base_dataset_builder import BaseDatasetBuilder
 
             assert issubclass(
                 builder_cls, BaseDatasetBuilder
@@ -59,11 +59,11 @@ class Registry:
 
         Usage:
 
-            from LargeModelLoad.minigpt4_interface.minigpt4.common.registry import registry
+            from ModaFew.minigpt4_interface.minigpt4.common.registry import registry
         """
 
         def wrap(task_cls):
-            from LargeModelLoad.minigpt4_interface.minigpt4.tasks.base_task import BaseTask
+            from ModaFew.minigpt4_interface.minigpt4.tasks.base_task import BaseTask
 
             assert issubclass(
                 task_cls, BaseTask
@@ -88,11 +88,11 @@ class Registry:
 
         Usage:
 
-            from LargeModelLoad.minigpt4_interface.minigpt4.common.registry import registry
+            from ModaFew.minigpt4_interface.minigpt4.common.registry import registry
         """
 
         def wrap(model_cls):
-            from LargeModelLoad.minigpt4_interface.minigpt4.models import BaseModel
+            from ModaFew.minigpt4_interface.minigpt4.models import BaseModel
 
             assert issubclass(
                 model_cls, BaseModel
@@ -117,11 +117,11 @@ class Registry:
 
         Usage:
 
-            from LargeModelLoad.minigpt4_interface.minigpt4.common.registry import registry
+            from ModaFew.minigpt4_interface.minigpt4.common.registry import registry
         """
 
         def wrap(processor_cls):
-            from LargeModelLoad.minigpt4_interface.minigpt4.processors import BaseProcessor
+            from ModaFew.minigpt4_interface.minigpt4.processors import BaseProcessor
 
             assert issubclass(
                 processor_cls, BaseProcessor
@@ -146,7 +146,7 @@ class Registry:
 
         Usage:
 
-            from LargeModelLoad.minigpt4_interface.minigpt4.common.registry import registry
+            from ModaFew.minigpt4_interface.minigpt4.common.registry import registry
         """
 
         def wrap(lr_sched_cls):
@@ -170,7 +170,7 @@ class Registry:
 
         Usage:
 
-            from LargeModelLoad.minigpt4_interface.minigpt4.common.registry import registry
+            from ModaFew.minigpt4_interface.minigpt4.common.registry import registry
         """
 
         def wrap(runner_cls):
@@ -194,7 +194,7 @@ class Registry:
 
         Usage:
 
-            from LargeModelLoad.minigpt4_interface.minigpt4.common.registry import registry
+            from ModaFew.minigpt4_interface.minigpt4.common.registry import registry
         """
         assert isinstance(path, str), "All path must be str."
         if name in cls.mapping["paths"]:
@@ -210,7 +210,7 @@ class Registry:
 
         Usage::
 
-            from LargeModelLoad.minigpt4_interface.minigpt4.common.registry import registry
+            from ModaFew.minigpt4_interface.minigpt4.common.registry import registry
 
             registry.register("config", {})
         """

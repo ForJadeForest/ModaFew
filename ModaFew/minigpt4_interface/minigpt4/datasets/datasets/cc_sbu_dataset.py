@@ -1,8 +1,8 @@
 import os
 from PIL import Image
 import webdataset as wds
-from LargeModelLoad.minigpt4_interface.minigpt4.datasets.datasets.base_dataset import BaseDataset
-from LargeModelLoad.minigpt4_interface.minigpt4.datasets.datasets.caption_datasets import CaptionDataset
+from ModaFew.minigpt4_interface.minigpt4.datasets.datasets.base_dataset import BaseDataset
+from ModaFew.minigpt4_interface.minigpt4.datasets.datasets.caption_datasets import CaptionDataset
 
 
 class CCSBUDataset(BaseDataset):

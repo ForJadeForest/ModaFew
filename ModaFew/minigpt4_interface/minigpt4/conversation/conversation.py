@@ -10,7 +10,7 @@ import dataclasses
 from enum import auto, Enum
 from typing import List, Tuple, Any
 
-from LargeModelLoad.minigpt4_interface.minigpt4.common.registry import registry
+from ModaFew.minigpt4_interface.minigpt4.common.registry import registry
 
 
 class SeparatorStyle(Enum):

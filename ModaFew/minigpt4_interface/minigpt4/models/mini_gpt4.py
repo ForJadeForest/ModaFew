@@ -5,9 +5,9 @@ import torch
 from torch.cuda.amp import autocast as autocast
 import torch.nn as nn
 
-from LargeModelLoad.minigpt4_interface.minigpt4.common.registry import registry
-from LargeModelLoad.minigpt4_interface.minigpt4.models.blip2 import Blip2Base, disabled_train
-from LargeModelLoad.minigpt4_interface.minigpt4.models.modeling_llama import LlamaForCausalLM
+from ModaFew.minigpt4_interface.minigpt4.common.registry import registry
+from ModaFew.minigpt4_interface.minigpt4.models.blip2 import Blip2Base, disabled_train
+from ModaFew.minigpt4_interface.minigpt4.models.modeling_llama import LlamaForCausalLM
 from transformers import LlamaTokenizer
 
 

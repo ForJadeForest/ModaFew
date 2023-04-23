@@ -10,7 +10,7 @@ import json
 from typing import Dict
 
 from omegaconf import OmegaConf
-from LargeModelLoad.minigpt4_interface.minigpt4.common.registry import registry
+from ModaFew.minigpt4_interface.minigpt4.common.registry import registry
 
 
 class Config:

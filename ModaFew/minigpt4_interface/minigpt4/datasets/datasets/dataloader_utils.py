@@ -8,7 +8,7 @@
 import time
 import random
 import torch
-from LargeModelLoad.minigpt4_interface.minigpt4.datasets.data_utils import move_to_cuda
+from ModaFew.minigpt4_interface.minigpt4.datasets.data_utils import move_to_cuda
 from torch.utils.data import DataLoader
 
 

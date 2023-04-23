@@ -22,8 +22,8 @@ import numpy as np
 import torch
 from torch.utils.data.dataset import IterableDataset
 
-from LargeModelLoad.minigpt4_interface.minigpt4.common.registry import registry
-from LargeModelLoad.minigpt4_interface.minigpt4.datasets.datasets.base_dataset import ConcatDataset
+from ModaFew.minigpt4_interface.minigpt4.common.registry import registry
+from ModaFew.minigpt4_interface.minigpt4.datasets.datasets.base_dataset import ConcatDataset
 
 
 decord.bridge.set_bridge("torch")

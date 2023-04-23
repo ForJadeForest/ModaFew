@@ -15,10 +15,10 @@ from omegaconf import OmegaConf
 import torch.distributed as dist
 from torchvision.datasets.utils import download_url
 
-import LargeModelLoad.minigpt4_interface.minigpt4.common.utils as utils
-from LargeModelLoad.minigpt4_interface.minigpt4.common.dist_utils import is_dist_avail_and_initialized, is_main_process
-from LargeModelLoad.minigpt4_interface.minigpt4.common.registry import registry
-from LargeModelLoad.minigpt4_interface.minigpt4.processors.base_processor import BaseProcessor
+import ModaFew.minigpt4_interface.minigpt4.common.utils as utils
+from ModaFew.minigpt4_interface.minigpt4.common.dist_utils import is_dist_avail_and_initialized, is_main_process
+from ModaFew.minigpt4_interface.minigpt4.common.registry import registry
+from ModaFew.minigpt4_interface.minigpt4.processors.base_processor import BaseProcessor
 
 
 

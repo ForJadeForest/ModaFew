@@ -9,11 +9,11 @@ import logging
 import torch
 from omegaconf import OmegaConf
 
-from LargeModelLoad.minigpt4_interface.minigpt4.common.registry import registry
-from LargeModelLoad.minigpt4_interface.minigpt4.models.base_model import BaseModel
-from LargeModelLoad.minigpt4_interface.minigpt4.models.blip2 import Blip2Base
-from LargeModelLoad.minigpt4_interface.minigpt4.models.mini_gpt4 import MiniGPT4
-from LargeModelLoad.minigpt4_interface.minigpt4.processors.base_processor import BaseProcessor
+from ModaFew.minigpt4_interface.minigpt4.common.registry import registry
+from ModaFew.minigpt4_interface.minigpt4.models.base_model import BaseModel
+from ModaFew.minigpt4_interface.minigpt4.models.blip2 import Blip2Base
+from ModaFew.minigpt4_interface.minigpt4.models.mini_gpt4 import MiniGPT4
+from ModaFew.minigpt4_interface.minigpt4.processors.base_processor import BaseProcessor
 
 
 __all__ = [
@@ -29,7 +29,7 @@ def load_model(name, model_type, is_eval=False, device="cpu", checkpoint=None):
     Load supported models.
 
     To list all available models and types in registry:
-    >>> from LargeModelLoad.minigpt4_interface.minigpt4.models import model_zoo
+    >>> from ModaFew.minigpt4_interface.minigpt4.models import model_zoo
     >>> print(model_zoo)
 
     Args:
@@ -115,7 +115,7 @@ def load_model_and_preprocess(name, model_type, is_eval=False, device="cpu"):
     Load model and its related preprocessors.
 
     List all available models and types in registry:
-    >>> from LargeModelLoad.minigpt4_interface.minigpt4.models import model_zoo
+    >>> from ModaFew.minigpt4_interface.minigpt4.models import model_zoo
     >>> print(model_zoo)
 
     Args:
@@ -162,7 +162,7 @@ class ModelZoo:
     """
     A utility class to create string representation of available model architectures and types.
 
-    >>> from LargeModelLoad.minigpt4_interface.minigpt4.models import model_zoo
+    >>> from ModaFew.minigpt4_interface.minigpt4.models import model_zoo
     >>> # list all available models
     >>> print(model_zoo)
     >>> # show total number of models

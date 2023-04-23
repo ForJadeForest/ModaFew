@@ -7,9 +7,9 @@
 
 import re
 
-from LargeModelLoad.minigpt4_interface.minigpt4.common.registry import registry
-from LargeModelLoad.minigpt4_interface.minigpt4.processors.base_processor import BaseProcessor
-from LargeModelLoad.minigpt4_interface.minigpt4.processors.randaugment import RandomAugment
+from ModaFew.minigpt4_interface.minigpt4.common.registry import registry
+from ModaFew.minigpt4_interface.minigpt4.processors.base_processor import BaseProcessor
+from ModaFew.minigpt4_interface.minigpt4.processors.randaugment import RandomAugment
 from omegaconf import OmegaConf
 from torchvision import transforms
 from torchvision.transforms.functional import InterpolationMode

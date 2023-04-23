@@ -5,9 +5,9 @@
  For full license text, see the LICENSE_Lavis file in the repo root or https://opensource.org/licenses/BSD-3-Clause
 """
 
-from LargeModelLoad.minigpt4_interface.minigpt4.common.registry import registry
-from LargeModelLoad.minigpt4_interface.minigpt4.tasks.base_task import BaseTask
-from LargeModelLoad.minigpt4_interface.minigpt4.tasks.image_text_pretrain import ImageTextPretrainTask
+from ModaFew.minigpt4_interface.minigpt4.common.registry import registry
+from ModaFew.minigpt4_interface.minigpt4.tasks.base_task import BaseTask
+from ModaFew.minigpt4_interface.minigpt4.tasks.image_text_pretrain import ImageTextPretrainTask
 
 
 def setup_task(cfg):

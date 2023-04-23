@@ -5,14 +5,14 @@
  For full license text, see the LICENSE_Lavis file in the repo root or https://opensource.org/licenses/BSD-3-Clause
 """
 
-from LargeModelLoad.minigpt4_interface.minigpt4.processors.base_processor import BaseProcessor
-from LargeModelLoad.minigpt4_interface.minigpt4.processors.blip_processors import (
+from ModaFew.minigpt4_interface.minigpt4.processors.base_processor import BaseProcessor
+from ModaFew.minigpt4_interface.minigpt4.processors.blip_processors import (
     Blip2ImageTrainProcessor,
     Blip2ImageEvalProcessor,
     BlipCaptionProcessor,
 )
 
-from LargeModelLoad.minigpt4_interface.minigpt4.common.registry import registry
+from ModaFew.minigpt4_interface.minigpt4.common.registry import registry
 
 __all__ = [
     "BaseProcessor",

@@ -2,10 +2,10 @@ import os
 import logging
 import warnings
 
-from LargeModelLoad.minigpt4_interface.minigpt4.common.registry import registry
-from LargeModelLoad.minigpt4_interface.minigpt4.datasets.builders.base_dataset_builder import BaseDatasetBuilder
-from LargeModelLoad.minigpt4_interface.minigpt4.datasets.datasets.laion_dataset import LaionDataset
-from LargeModelLoad.minigpt4_interface.minigpt4.datasets.datasets.cc_sbu_dataset import CCSBUDataset, CCSBUAlignDataset
+from ModaFew.minigpt4_interface.minigpt4.common.registry import registry
+from ModaFew.minigpt4_interface.minigpt4.datasets.builders.base_dataset_builder import BaseDatasetBuilder
+from ModaFew.minigpt4_interface.minigpt4.datasets.datasets.laion_dataset import LaionDataset
+from ModaFew.minigpt4_interface.minigpt4.datasets.datasets.cc_sbu_dataset import CCSBUDataset, CCSBUAlignDataset
 
 
 @registry.register_builder("cc_sbu")

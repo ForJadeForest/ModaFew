@@ -7,7 +7,7 @@
 
 import math
 
-from LargeModelLoad.minigpt4_interface.minigpt4.common.registry import registry
+from ModaFew.minigpt4_interface.minigpt4.common.registry import registry
 
 
 @registry.register_lr_scheduler("linear_warmup_step_lr")

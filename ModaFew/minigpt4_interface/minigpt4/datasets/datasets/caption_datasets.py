@@ -8,7 +8,7 @@
 import os
 from collections import OrderedDict
 
-from LargeModelLoad.minigpt4_interface.minigpt4.datasets.datasets.base_dataset import BaseDataset
+from ModaFew.minigpt4_interface.minigpt4.datasets.datasets.base_dataset import BaseDataset
 from PIL import Image
 
 
