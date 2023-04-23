@@ -1,3 +1,5 @@
+import torch
+
 from typing import List
 
 from PIL.Image import Image
