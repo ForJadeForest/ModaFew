@@ -59,9 +59,8 @@ class Config:
         model_cls = registry.get_model_class(model.arch)
         assert model_cls is not None, f"Model '{model.arch}' has not been registered."
 
-        model_type = kwargs.get("model.model_type", None)
-        if not model_type:
-            model_type = model.get("model_type", None)
+     
+        model_type = model.get("model_type", None)
         # else use the model type selected by user.
 
         assert model_type is not None, "Missing model_type."
@@ -74,6 +73,7 @@ class Config:
             model_config,
             OmegaConf.load(model_config_path),
             {"model": config["model"]},
+            {"model": kwargs}
         )
 
         return model_config
