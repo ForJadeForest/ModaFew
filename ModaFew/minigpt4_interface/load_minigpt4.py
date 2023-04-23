@@ -16,6 +16,7 @@ class MiniGPT4Interface:
         self.cfg = Config(config_path, **kwargs)
         model_config = self.cfg.model_cfg
         model_config.device_8bit = gpu_id
+        # TODO: 不使用 model_cls.from_config，直接从类初始化
         model_cls = registry.get_model_class(model_config.arch)
         model = model_cls.from_config(model_config).to('cuda:{}'.format(gpu_id))
 
@@ -63,7 +64,7 @@ class MiniGPT4Interface:
         if not isinstance(input_images, List):
             input_images = [input_images]
 
-        assert len(input_images) == 1, f"Now only support one image as output"
+        assert len(input_images) == 1, f"Now only support one image as input"
 
         for input_image in input_images:
             self.chat.upload_img(input_image, self.conversation_history, self.image_list)
@@ -96,48 +97,3 @@ after get the answer
 [["Human", "<Img><ImageHere></Img> Describe the image" ], ["Assistant", "This is a cat!"], ["Human", "Describe the image again"]]
 
 """
-
-if __name__ == '__main__':
-    import time
-    import torch
-    from PIL import Image
-    import requests
-
-    device = '0'
-    time_begin = time.time()
-    interface = MiniGPT4Interface(config_path='./minigpt4_interface/eval_config.yaml', device=device)
-
-
-    """
-    Step 1: Load images
-    """
-    demo_image_one = Image.open(
-        requests.get(
-            "http://images.cocodataset.org/val2017/000000039769.jpg", stream=True
-        ).raw
-    )
-
-    demo_image_two = Image.open(
-        requests.get(
-            "http://images.cocodataset.org/test-stuff2017/000000028137.jpg",
-            stream=True
-        ).raw
-    )
-
-    query_image = Image.open(
-        requests.get(
-            "http://images.cocodataset.org/test-stuff2017/000000028352.jpg",
-            stream=True
-        ).raw
-    )
-    example_images = [demo_image_one, demo_image_two]
-
-    texts_input = [
-        ["An image of two cats.", "An image of a bathroom sink."]
-    ]
-    query='What\'s the object in the image?'
-    answer = interface.few_shot_generation(example_images, texts_input, query_image, query=query)
-    print(f'The few-shot answer: {answer}')
-
-    answer = interface.zero_shot_generation(query_image, query=query)
-    print(f'The zero-shot anser: {answer}')
