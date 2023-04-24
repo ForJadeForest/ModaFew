@@ -7,14 +7,22 @@ This is Flamingo-Interface!
 
 import time
 import torch
+import requests
 
 from PIL import Image
-import requests
+
 
 
 device = 'cuda:0'
 time_begin = time.time()
-interface = FlamingoInterface(device=device)
+lang_encoder_path = "path/to/llama-7b"
+tokenizer_path = "path/to/llama-7b"
+checkpoint_path = "path/to/openflamingo_checkpoint"
+
+interface = FlamingoInterface(device=device,
+                              lang_encoder_path=lang_encoder_path,
+                              tokenizer_path=tokenizer_path,
+                              checkpoint_path=checkpoint_path)
 
 
 """
