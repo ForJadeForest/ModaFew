@@ -4,14 +4,12 @@ This is MINIGPT4-Interface!
 
 ## example:
 ```python
-import time
 import torch
 from PIL import Image
 import requests
 from minigpt4_interface import MiniGPT4Interface
 
 device = '0'
-time_begin = time.time()
 interface = MiniGPT4Interface(config_path='/path/to/ModaFew/ModaFew/minigpt4_interface/minigpt4/prompts/alignment.txt', device=device)
 
 demo_image_one = Image.open(
