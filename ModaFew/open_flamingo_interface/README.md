@@ -1,4 +1,4 @@
-# MINIGPT4-Interface
+# Flamingo-Interface
 This is Flamingo-Interface!
 
 
