@@ -1,2 +1,3 @@
 from .minigpt4_interface.load_minigpt4 import MiniGPT4Interface
 from .open_flamingo_interface.load_flamingo import FlamingoInterface
+from .llama_interface.load_llama import llama_interface
