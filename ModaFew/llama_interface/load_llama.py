@@ -18,12 +18,12 @@ class llama_interface:
         print('init done')
 
     @torch.no_grad()
-    def few_shot_generation(self, prompts: List[str], padding=True, **kwargs):
+    def generation(self, prompts: List[str], **kwargs):
         if not isinstance(prompts, list):
             prompts = [prompts]
         final_result = []
         for prompt in prompts:
-            inputs = self.tokenizer(prompt, return_tensors='pt', padding=padding).to(device)
+            inputs = self.tokenizer(prompt, return_tensors='pt').to(device)
             with torch.autocast(self._auto_cast):
                 generate_ids = self.model.generate(inputs.input_ids,  **kwargs)
             gene_texts = self.tokenizer.decode(generate_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)
@@ -38,6 +38,6 @@ if __name__ == '__main__':
     precision = 'fp16'
     interface = llama_interface(path, device=device, precision=precision)
     text = ['I love you! ']
-    print(interface.few_shot_generation(text))
+    print(interface.generation(text))
     text = ['You are my best friend! ', 'Can you help me write a python code to read a csv file?']
-    print(interface.few_shot_generation(text))
+    print(interface.generation(text))
