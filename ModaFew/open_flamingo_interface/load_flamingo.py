@@ -38,7 +38,8 @@ class FlamingoInterface:
         self.chunk_token = '<|endofchunk|>'
         self.precision = precision
         self.device = device
- 
+        self._auto_cast = 'cuda' if 'cuda' in device else 'cpu'
+
     def cat_single_image(self, images: List[Image]):
         """
         @param: images: A List[Image] for processing
@@ -89,6 +90,7 @@ class FlamingoInterface:
             cat_prompt_list.append(text_prompt)
         return self.tokenizer(cat_prompt_list, return_tensors="pt")
 
+    @torch.no_grad()
     def generate(self, 
                  images: Union[List[List[Image]], torch.Tensor], 
                  texts: Union[List[List[str]], torch.Tensor], 
@@ -104,12 +106,13 @@ class FlamingoInterface:
         texts = texts.to(self.device)
         if self.precision == 'fp16':
             images = images.half()
-        generated_text = self.model.generate(
-            vision_x=images,
-            lang_x=texts["input_ids"],
-            attention_mask=texts["attention_mask"],
-            **kwargs
-        )
+        with torch.autocast(self._auto_cast):
+            generated_text = self.model.generate(
+                vision_x=images,
+                lang_x=texts["input_ids"],
+                attention_mask=texts["attention_mask"],
+                **kwargs
+            )
         return generated_text
 
 

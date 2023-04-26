@@ -32,13 +32,15 @@ class MiniGPT4Interface:
     def reset(self):
         self.conversation_history = CONV_VISION.copy()
 
+    @torch.no_grad()
     def _chat_one_time(self, image, query, **kwargs):
         if image:
             self.chat.upload_img(image, self.conversation_history, self.image_list)
         self.chat.ask(query, self.conversation_history)
         answer = self.chat.answer(self.conversation_history, self.image_list, **kwargs)[0]
         return answer
-        
+    
+    @torch.no_grad()
     def zero_shot_generation(self, 
                              image: Union[Image, str, torch.Tensor], 
                              query: str ='', 
@@ -47,7 +49,8 @@ class MiniGPT4Interface:
         answer = self._chat_one_time(image, query, **kwargs)
         self.reset()
         return answer
-
+    
+    @torch.no_grad()
     def few_shot_generation(self, 
                             example_images: List[Union[Image, str, torch.Tensor]], 
                             example_texts: List[str], 
