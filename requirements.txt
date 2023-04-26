@@ -20,3 +20,5 @@ opencv-python
 decord
 accelerate
 bitsandbytes
+fairscale
+fire
