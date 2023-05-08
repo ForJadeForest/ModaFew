@@ -24,13 +24,14 @@ class MiniGPT4Interface:
         vis_processor_cfg = self.cfg.datasets_cfg.cc_sbu_align.vis_processor.train
         vis_processor = registry.get_processor_class(vis_processor_cfg.name).from_config(vis_processor_cfg)
         self.chat = Chat(model, vis_processor, device='cuda:{}'.format(gpu_id))
-        self.conversation_history = CONV_VISION
+        self.conversation_history = CONV_VISION.copy()
         self.image_list = []
         print('Initialization Finished')
 
     
     def reset(self):
         self.conversation_history = CONV_VISION.copy()
+        self.image_list = []
 
     def _chat_one_time(self, image, query, **kwargs):
         if image:
