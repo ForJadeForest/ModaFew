@@ -48,5 +48,9 @@ print(f'The few-shot answer: {answer}')
 git clone https://github.com/ForJadeForest/ModaFew.git
 cd ModaFew
 pip install -r requirements.txt
+# install the github repo requirements
+pip install -e ./requirements_repo/open_flamingo
+pip install -e ./requirements_repo/minigpt4
+
 pip install -e .
 ```

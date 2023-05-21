@@ -4,8 +4,7 @@ from typing import List, Union
 
 from PIL.Image import Image
 
-from .open_flamingo import Precision_MODE
-from .open_flamingo import create_model_and_transforms
+from open_flamingo import create_model_and_transforms
 from huggingface_hub import hf_hub_download
 
 
@@ -17,7 +16,7 @@ class FlamingoInterface:
                  tokenizer_path='checkpoint/llama-7b',
                  cross_attn_every_n_layers=4,
                  inference=True,
-                 precision: Precision_MODE = "fp16",
+                 precision= "fp16",
                  device='cuda',
                  checkpoint_path='checkpoint/openflamingo/'):
         model_path = hf_hub_download("openflamingo/OpenFlamingo-9B", "checkpoint.pt", local_dir=checkpoint_path)
