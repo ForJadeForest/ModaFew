@@ -1,3 +1,0 @@
-[submodule "requirements_repo/--force"]
-	path = requirements_repo/--force
-	url = https://github.com/ForJadeForest/open_flamingo.git
