@@ -4,9 +4,9 @@ import numpy as np
 from typing import Union, List
 from PIL.Image import Image
 
-from .minigpt4.common.config import Config
-from .minigpt4.common.registry import registry
-from .minigpt4.conversation.conversation import Chat, CONV_VISION
+from minigpt4.common.config import Config
+from minigpt4.common.registry import registry
+from minigpt4.conversation.conversation import Chat, CONV_VISION
 
 
 class MiniGPT4Interface:

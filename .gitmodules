@@ -1,0 +1,6 @@
+[submodule "requirements_repo/open_flamingo"]
+	path = requirements_repo/open_flamingo
+	url = https://github.com/ForJadeForest/open_flamingo.git
+[submodule "requirements_repo/MiniGPT-4"]
+	path = requirements_repo/MiniGPT-4
+	url = https://github.com/ForJadeForest/MiniGPT-4.git
