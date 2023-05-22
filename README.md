@@ -50,7 +50,11 @@ cd ModaFew
 pip install -r requirements.txt
 # install the github repo requirements
 pip install -e ./requirements_repo/open_flamingo
-pip install -e ./requirements_repo/minigpt4
+pip install -e ./requirements_repo/MiniGPT-4/
 
 pip install -e .
 ```
+
+## Note
+The first you use the flamingo you need login huggingface account.
+please click this url to check more details: https://huggingface.co/docs/huggingface_hub/quick-start#login
