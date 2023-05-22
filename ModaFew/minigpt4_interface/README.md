@@ -4,13 +4,10 @@ This is MINIGPT4-Interface!
 
 ## example:
 ```python
-import torch
-from PIL import Image
 import requests
-from minigpt4_interface import MiniGPT4Interface
-
-device = '0'
-interface = MiniGPT4Interface(config_path='/path/to/ModaFew/ModaFew/minigpt4_interface/minigpt4/prompts/alignment.txt', device=device)
+from ModaFew import FlamingoInterface, MiniGPT4Interface
+from PIL import Image
+device = 'cuda:0'
 
 demo_image_one = Image.open(
     requests.get(
@@ -24,28 +21,30 @@ demo_image_two = Image.open(
         stream=True
     ).raw
 )
+example_images = [demo_image_one, demo_image_two]
+vicuna_path = '/data/share/pyz/checkpoint/vicuna-7b'
+minigpt4_path = '/data/share/pyz/checkpoint/prerained_minigpt4_7b.pth'
 
+interface = MiniGPT4Interface(device=device, vicuna_path=vicuna_path, minigpt4_path=minigpt4_path)
 query_image = Image.open(
     requests.get(
         "http://images.cocodataset.org/test-stuff2017/000000028352.jpg",
         stream=True
     ).raw
 )
-example_images = [demo_image_one, demo_image_two]
-
 texts_input = ["An image of two cats.", "An image of a bathroom sink."]
 query='What\'s the object in the image?'
 answer = interface.few_shot_generation(example_images, texts_input, query_image, query=query)
 print(f'The few-shot answer: {answer}')
-
-answer = interface.zero_shot_generation(query_image, query=query)
-print(f'The zero-shot anser: {answer}')
 ```
 
 ## Init 
-For init the Interface, you should give a config_path. The important args you should set are: prompt_path, ckpt, llama_model. 
+For init the Interface, you should give a config_path. 
+If you not give one config_path, it will use the default config. But you should provide the `vicuna_path` and `minigpt4_path`.
 
 For weight download, please refer https://github.com/Vision-CAIR/MiniGPT-4.
+
+This is the default config:
 ```yaml
 model:
   arch: mini_gpt4
@@ -56,12 +55,6 @@ model:
   end_sym: "###"
   low_resource: True
   prompt_template: '###Human: {} ###Assistant: '
-  # This is the default prompt path
-  prompt_path: "/path/to/ModaFew/ModaFew/minigpt4_interface/minigpt4/prompts/alignment.txt"
-  ckpt: "/path/to/prerained_minigpt4_7b.pth"
-  llama_model: "/path/to/checkpoint/vicuna-7b"
-
-
 
 datasets:
   cc_sbu_align:
