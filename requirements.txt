@@ -1,6 +1,6 @@
 einops
 einops-exts
-transformer
+transformers
 torch
 torchvision
 pillow
