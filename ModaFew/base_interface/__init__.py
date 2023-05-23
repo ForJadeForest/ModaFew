@@ -1,1 +1,1 @@
-from base_interface import BaseInterface
+from .base_interface import BaseInterface 
