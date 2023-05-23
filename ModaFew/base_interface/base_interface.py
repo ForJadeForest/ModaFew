@@ -7,12 +7,12 @@ from ModaFew.utils import IMAGE_TYPE
 
 
 class BaseInterface:
-    def __int__(self, task):
+    def __init__(self, task):
         self._task = task
         self._default_task_map = {
             'vqa': self.vqa_prompt,
             'caption': self.caption_prompt,
-            'classification': self.classfication_prompt
+            'classification': self.classification_prompt
         }
         self.prompt_task_map = self._default_task_map
 
