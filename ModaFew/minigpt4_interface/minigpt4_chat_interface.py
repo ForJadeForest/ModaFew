@@ -81,14 +81,14 @@ class MiniGPT4ChatInterface:
                             example_images: List[Union[Image, str, torch.Tensor]],
                             example_texts: List[str],
                             input_images: Union[List[Union[Image, str, torch.Tensor]], Image, str, torch.Tensor],
-                            query: str = '',
+                            queries: str = '',
                             **kwargs):
         assert len(example_images) == len(
             example_texts), f"The few-shot image should num should be the same as the num of example_texts"
         few_shot_num = len(example_texts)
         for i in range(few_shot_num):
             self.chat.upload_img(example_images[i], self.conversation_history, self.image_list)
-            self.chat.ask(query, self.conversation_history)
+            self.chat.ask(queries, self.conversation_history)
             self.conversation_history.append_message(self.conversation_history.roles[1], example_texts[i])
 
         if not isinstance(input_images, List):
@@ -98,8 +98,8 @@ class MiniGPT4ChatInterface:
 
         for input_image in input_images:
             self.chat.upload_img(input_image, self.conversation_history, self.image_list)
-            self.chat.ask(query, self.conversation_history)
-            output_text = self.chat.answxer(self.conversation_history, self.image_list, **kwargs)[0]
+            self.chat.ask(queries, self.conversation_history)
+            output_text = self.chat.answer(self.conversation_history, self.image_list, **kwargs)[0]
         self.reset()
         return output_text
 
