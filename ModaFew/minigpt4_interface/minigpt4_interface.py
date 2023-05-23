@@ -1,8 +1,7 @@
 import pathlib
-from typing import Union, List
+from typing import List
 
 import torch
-from PIL.Image import Image
 from omegaconf import OmegaConf
 from transformers import StoppingCriteria, StoppingCriteriaList
 
@@ -95,7 +94,11 @@ class MiniGPT4Interface(BaseInterface):
         seg_embeds = [self.model.llama_model.model.embed_tokens(seg_t) for seg_t in seg_tokens]
         mixed_embeds = [emb for pair in zip(seg_embeds[:-1], image_embeds) for emb in pair] + [seg_embeds[-1]]
         mixed_embeds = torch.cat(mixed_embeds, dim=1)
-        return mixed_embeds
+
+        input_dict = {
+            'input_embeds': mixed_embeds
+        }
+        return input_dict
 
     @torch.no_grad()
     def model_forward(self, input_embeds, max_new_tokens=300, num_beams=1, min_length=1, top_p=0.9,
@@ -135,32 +138,32 @@ class MiniGPT4Interface(BaseInterface):
             processed_outputs.append(output_text)
         return processed_outputs
 
-    @torch.no_grad()
-    def few_shot_generation(self,
-                            context_images: Union[List[List[Union[Image, str, torch.Tensor]]],
-                            List[Union[Image, str, torch.Tensor]]],
-                            context_texts: Union[List[List[dict]], List[dict]],
-                            input_images: Union[List[Union[Image, str, torch.Tensor]], Image, str, torch.Tensor],
-                            queries: Union[List[dict], dict],
-                            **kwargs):
-
-        if not isinstance(input_images, list):
-            input_images = [input_images]
-            context_images = [context_images]
-            context_texts = [context_texts]
-            queries = [queries]
-
-        batch_model_inputs = []
-        batch_size = len(context_images)
-        for b in range(batch_size):
-            prompts = self.construct_prompt(context_texts[b], queries[b])
-            image_list = context_images[b] + input_images[b]
-            model_input = self.get_model_input(image_list, prompts)
-            batch_model_inputs.append(model_input)
-        batch_model_inputs = torch.stack(batch_model_inputs)
-        outputs = self.model_forward(batch_model_inputs, **kwargs)
-        outputs = self.postprocess(outputs)
-        return outputs
+    # @torch.no_grad()
+    # def few_shot_generation(self,
+    #                         context_images: Union[List[List[Union[Image, str, torch.Tensor]]],
+    #                         List[Union[Image, str, torch.Tensor]]],
+    #                         context_texts: Union[List[List[dict]], List[dict]],
+    #                         input_images: Union[List[Union[Image, str, torch.Tensor]], Image, str, torch.Tensor],
+    #                         queries: Union[List[dict], dict],
+    #                         **kwargs):
+    #
+    #     if not isinstance(input_images, list):
+    #         input_images = [input_images]
+    #         context_images = [context_images]
+    #         context_texts = [context_texts]
+    #         queries = [queries]
+    #
+    #     batch_model_inputs = []
+    #     batch_size = len(context_images)
+    #     for b in range(batch_size):
+    #         prompts = self.construct_prompt(context_texts[b], queries[b])
+    #         image_list = context_images[b] + input_images[b]
+    #         model_input = self.get_model_input(image_list, prompts)
+    #         batch_model_inputs.append(model_input)
+    #     batch_model_inputs = torch.stack(batch_model_inputs)
+    #     outputs = self.model_forward(batch_model_inputs, **kwargs)
+    #     outputs = self.postprocess(outputs)
+    #     return outputs
 
     def construct_prompt(self,
                          example_texts: List[dict],
@@ -173,5 +176,6 @@ class MiniGPT4Interface(BaseInterface):
 
         return prompts
 
+    @staticmethod
     def vqa_prompt(self, question, answer=None) -> str:
         return f"Human: <Img><ImageHere></Img> {question}###Assistant:{answer if answer is not None else ''}"
