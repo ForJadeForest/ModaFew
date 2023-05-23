@@ -1,10 +1,12 @@
-import torch
-from PIL import Image
 from typing import Union
 
+import torch
+from PIL import Image
+
+IMAGE_TYPE = Union[str, Image.Image, torch.Tensor]
 
 
-def image2tensor(image: Union[str, Image.Image, torch.Tensor], vis_processor):
+def image2tensor(image: IMAGE_TYPE, vis_processor):
     if isinstance(image, str):  # is a image path
         raw_image = Image.open(image).convert('RGB')
         image = vis_processor(raw_image).unsqueeze(0)
