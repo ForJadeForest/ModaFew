@@ -14,6 +14,7 @@ def image2tensor(image: IMAGE_TYPE, vis_processor):
         raw_image = image
         image = vis_processor(raw_image).unsqueeze(0)
     elif isinstance(image, torch.Tensor):
-        if len(image.shape) == 3:
-            image = image.unsqueeze(0)
+        image = image
+    else:
+        raise ValueError()
     return image
