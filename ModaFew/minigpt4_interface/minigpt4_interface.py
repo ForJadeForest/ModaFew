@@ -82,7 +82,7 @@ class MiniGPT4Interface(BaseInterface):
     @torch.no_grad()
     def get_model_input(self, images, texts):
         images = [image2tensor(img, self.vis_processor).to(self.device) for img in images]
-        images = torch.stack(images).squeeze()
+        images = torch.stack(images)
 
         image_embeds, _ = self.model.encode_img(images)
         text_prompt = self.system_prompt + ''.join(texts)
