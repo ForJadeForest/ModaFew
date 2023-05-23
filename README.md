@@ -47,6 +47,9 @@ print(f'The few-shot answer: {answer}')
 ```bash
 git clone https://github.com/ForJadeForest/ModaFew.git
 cd ModaFew
+git submodule init
+git submodule updata
+
 pip install -r requirements.txt
 # install the github repo requirements
 pip install -e ./requirements_repo/open_flamingo
