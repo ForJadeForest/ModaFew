@@ -9,10 +9,10 @@ IMAGE_TYPE = Union[str, Image.Image, torch.Tensor]
 def image2tensor(image: IMAGE_TYPE, vis_processor):
     if isinstance(image, str):  # is a image path
         raw_image = Image.open(image).convert('RGB')
-        image = vis_processor(raw_image).unsqueeze(0)
+        image = vis_processor(raw_image)
     elif isinstance(image, Image.Image):
         raw_image = image
-        image = vis_processor(raw_image).unsqueeze(0)
+        image = vis_processor(raw_image)
     elif isinstance(image, torch.Tensor):
         image = image
     else:
