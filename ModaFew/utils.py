@@ -11,7 +11,7 @@ def image2tensor(image: IMAGE_TYPE, vis_processor):
         raw_image = Image.open(image).convert('RGB')
         image = vis_processor(raw_image)
     elif isinstance(image, Image.Image):
-        raw_image = image
+        raw_image = image.convert('RGB')
         image = vis_processor(raw_image)
     elif isinstance(image, torch.Tensor):
         image = image
