@@ -25,13 +25,13 @@ class BaseInterface:
         return images
 
     @torch.no_grad()
-    def get_model_input(self, images: List[IMAGE_TYPE], texts: List[str]) -> Dict:
+    def get_model_input(self, images_list: List[List[IMAGE_TYPE]], texts_list: List[List[str]]) -> Dict:
         """
-        Get the model input of one input.
+        Get the model input.
         For image, you should change it to tensor.
         For text, you should tokenize it to tensor.
-        :param images: the images List
-        :param texts: the texts List
+        :param images: the batch images List
+        :param texts: the batch texts List
         :return: the model input Dict, the key is the model_forward parameters name.
         """
         raise NotImplemented
@@ -73,20 +73,18 @@ class BaseInterface:
             context_texts = [context_texts]
             queries = [queries]
 
-        batch_model_inputs_collect = defaultdict(list)
         batch_size = len(context_images)
+        prompts_list = []
+        image_list = []
         for b in range(batch_size):
             prompts = self.construct_prompt(context_texts[b], queries[b])
-            image_list = self.construct_images(context_images[b], input_images[b])
-            model_input = self.get_model_input(image_list, prompts)
-            for input_name, input_values in model_input.items():
-                batch_model_inputs_collect[input_name].append(input_values)
+            images = self.construct_images(context_images[b], input_images[b])
+            prompts_list.append(prompts)
+            image_list.append(images)
+        
+        model_input = self.get_model_input(image_list, prompts_list)
 
-        batch_model_inputs = {}
-        for n, v in batch_model_inputs_collect.items():
-            batch_model_inputs[n] = torch.stack(v)
-
-        outputs = self.model_forward(**batch_model_inputs, **kwargs)
+        outputs = self.model_forward(**model_input, **kwargs)
         outputs = self.postprocess(outputs)
         return outputs
 
