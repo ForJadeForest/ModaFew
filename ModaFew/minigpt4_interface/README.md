@@ -95,3 +95,9 @@ run:
 
 3. `reset(self)`
    - This function is to reset the conversation history.
+
+
+### Note
+When use batch inference, the config of vicuna-7b should modify the pad_token_id to 2. 
+Because sometimes the will generate the padding token.
+details: https://github.com/huggingface/transformers/issues/22546#issuecomment-1561257076
