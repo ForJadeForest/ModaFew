@@ -60,8 +60,7 @@ class BaseInterface:
 
     @torch.no_grad()
     def few_shot_generation(self,
-                            context_images: Union[List[List[IMAGE_TYPE]],
-                            List[IMAGE_TYPE]],
+                            context_images: Union[List[List[IMAGE_TYPE]], List[IMAGE_TYPE]],
                             context_texts: Union[List[List[dict]], List[dict]],
                             input_images: Union[List[IMAGE_TYPE], IMAGE_TYPE],
                             queries: Union[List[dict], dict],
