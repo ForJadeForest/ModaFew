@@ -1,1 +1,1 @@
-from .load_flamingo import FlamingoInterface
+from .flamingo_interface import FlamingoInterface
