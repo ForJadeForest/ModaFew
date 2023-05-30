@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import Union, List, Dict
+from typing import Union, List, Dict, Optional
 
 import torch
 
@@ -16,13 +16,25 @@ class BaseInterface:
         }
         self.prompt_task_map = self._default_task_map
 
-    def construct_prompt(self, *args, **kwargs):
-        raise NotImplemented
+    def construct_prompt(self, 
+                         context_texts: List[dict],
+                         query_text: dict):
+        prompts = ''
+        prompts_method = self.prompt_task_map[self._task]
+        for text_data in context_texts:
+            prompts += prompts_method(**text_data)
+        prompts += prompts_method(**query_text)
+        return prompts
 
-    def construct_images(self, images: List[IMAGE_TYPE],
+    def construct_images(self, 
+                         context_images: Optional[List[IMAGE_TYPE]],
                          query_image: IMAGE_TYPE):
-        images.append(query_image)
-        return images
+        if context_images:
+            images_list = context_images.copy()
+            images_list.append(query_image)
+            return images_list
+        else:
+            return [query_image]
 
     @torch.no_grad()
     def get_model_input(self, images_list: List[List[IMAGE_TYPE]], texts_list: List[List[str]]) -> Dict:
@@ -60,8 +72,8 @@ class BaseInterface:
 
     @torch.no_grad()
     def few_shot_generation(self,
-                            context_images: Union[List[List[IMAGE_TYPE]], List[IMAGE_TYPE]],
-                            context_texts: Union[List[List[dict]], List[dict]],
+                            context_images: Union[List[List[IMAGE_TYPE]], List[IMAGE_TYPE], None],
+                            context_texts: Union[List[List[dict]], List[dict], None],
                             input_images: Union[List[IMAGE_TYPE], IMAGE_TYPE],
                             queries: Union[List[dict], dict],
                             **kwargs
