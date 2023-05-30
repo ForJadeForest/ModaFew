@@ -1,5 +1,5 @@
 import pathlib
-from typing import List
+from typing import List, Optional
 
 import torch
 from omegaconf import OmegaConf
@@ -76,7 +76,7 @@ class MiniGPT4Interface(BaseInterface):
         self.stopping_criteria = StoppingCriteriaList([StoppingCriteriaSub(stops=stop_words_ids)])
         self.system_prompt = "Give the following image: <Img>ImageContent</Img>. " \
                              "You will be able to see the image once I provide it to you. " \
-                             "Please answer my questions.###"
+                             "Please answer my questions."
         print('Initialization Finished')
         
     @torch.no_grad()
@@ -102,15 +102,13 @@ class MiniGPT4Interface(BaseInterface):
         images_tensor = torch.stack(images_tensor_list)  # batch, few-shot-num, 3, 224, 224
         images_tensor_shape = images_tensor.shape
         batch_size, shot_num = images_tensor.shape[:2]
+        assert batch_size == 1, f"the batch size should equal to 1 when use minigpt4 right now, but get {batch_size}"
         
         images_tensor = images_tensor.reshape(-1, *images_tensor_shape[-3:])
         images_embeds, images_attn = self.model.encode_img(images_tensor)
         
         images_embeds = images_embeds.reshape(batch_size, shot_num, *images_embeds.shape[1:])
         images_attn = images_attn.reshape(batch_size, shot_num, -1)
-        
-        texts_list = [self.system_prompt + t for t in texts_list]
-
         
         prompt_segs = [t.split('<ImageHere>') for t in texts_list]
 
@@ -171,19 +169,15 @@ class MiniGPT4Interface(BaseInterface):
         return processed_outputs
 
     def construct_prompt(self,
-                         example_texts: List[dict],
+                         context_texts: Optional[List[dict]],
                          query: dict):
         prompts = self.system_prompt
-        prompts_method = self.prompt_task_map[self._task]
-        for text_data in example_texts:
-            prompts += prompts_method(**text_data)
-        prompts += prompts_method(**query)
-
+        prompts += super().construct_prompt(context_texts, query)
         return prompts
 
     @staticmethod
     def vqa_prompt(question, answer=None) -> str:
-        return f"###Human: <Img><ImageHere></Img> {question}###Assistant:{answer if answer is not None else ''}"
+        return f"###Human: <Img><ImageHere></Img> Please answer the question shortly: {question}###Assistant:{answer if answer is not None else ''}"
     
     @staticmethod
     def caption_prompt(caption=None) -> str:
