@@ -39,20 +39,11 @@ class FlamingoInterface(BaseInterface):
         self.device = device
         self.tokenizer.padding_side = "left"
 
-    def construct_prompt(self, example_texts: List[dict], query: dict):
-        prompts = ''
-        prompts_method = self.prompt_task_map[self._task]
-        for text_data in example_texts:
-            prompts += prompts_method(**text_data)
-        prompts += prompts_method(**query)
-
-        return prompts
-
-    def get_model_input(self, images: List[IMAGE_TYPE], texts: List[str]) -> Dict:
-        image_tensors = self.cat_single_image(images).to(self.device)
+    def get_model_input(self, images_list: List[List[IMAGE_TYPE]], texts_list: List[List[str]]) -> Dict:
+        image_tensors = self.process_batch_image(images_list).to(self.device)
         if self.precision == 'fp16':
             image_tensors = image_tensors.half()
-        texts_token = self.tokenizer(texts, return_tensors="pt")
+        texts_token = self.tokenizer(texts_list, return_tensors="pt").to(self.device)
         return {
             'vision_x': image_tensors,
             'lang_x': texts_token['input_ids'],
@@ -66,7 +57,9 @@ class FlamingoInterface(BaseInterface):
             attention_mask=attention_mask,
             **kwargs
         )
-        return generated_text
+        outputs = generated_text[:, len(lang_x[0]) :]
+
+        return self.tokenizer.batch_decode(outputs, skip_special_tokens=True)
 
     def cat_single_image(self, images: List[IMAGE_TYPE]):
         """
@@ -78,14 +71,28 @@ class FlamingoInterface(BaseInterface):
         image_tensor = image_tensor.unsqueeze(1).unsqueeze(0)
         return image_tensor
 
+
+    def process_batch_image(self, batch_images: List[List[IMAGE_TYPE]]):
+        """
+        @param: batch_images: A List[List[Image]], every element is a few-shot images and one query image
+        return A tensor with [batch_size, few-shot_num, 1, 3, 224, 224]
+        """
+        batch_tensor = []
+        for images in batch_images:
+            image_tensor = self.cat_single_image(images)
+            batch_tensor.append(image_tensor)
+        batch_tensor = torch.cat(batch_tensor, dim=0)
+        return batch_tensor
+    
+    
     @staticmethod
-    def vqa_prompt(self, question, answer=None) -> str:
-        return self.model.vqa_prompt(question, answer)
+    def vqa_prompt(question, answer=None) -> str:
+        return f"<image>Question:{question} Short answer:{answer if answer is not None else ''}{'<|endofchunk|>' if answer is not None else ''}"
 
     @staticmethod
-    def caption_prompt(self, caption=None) -> str:
-        return self.model.caption_prompt(caption)
+    def caption_prompt(caption=None) -> str:
+        return f"<image>Output:{caption if caption is not None else ''}{'<|endofchunk|>' if caption is not None else ''}"
 
     @staticmethod
     def classification_prompt(self, class_str=None) -> str:
-        return self.model.classification_prompt(class_str)
+        return f"<image>A photo of a {class_str if class_str is not None else ''}{'<|endofchunk|>' if class_str is not None else ''}"
