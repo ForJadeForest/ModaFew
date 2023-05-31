@@ -22,8 +22,8 @@ demo_image_two = Image.open(
     ).raw
 )
 example_images = [demo_image_one, demo_image_two]
-vicuna_path = '/data/share/pyz/checkpoint/vicuna-7b'
-minigpt4_path = '/data/share/pyz/checkpoint/prerained_minigpt4_7b.pth'
+vicuna_path = '/path/to/vicuna-7b'
+minigpt4_path = '/path/to/prerained_minigpt4_7b.pth'
 
 interface = MiniGPT4Interface(device=device, vicuna_path=vicuna_path, minigpt4_path=minigpt4_path, task='caption')
 query_image = Image.open(
