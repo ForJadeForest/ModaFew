@@ -5,9 +5,9 @@ import torch
 from omegaconf import OmegaConf
 from transformers import StoppingCriteria, StoppingCriteriaList
 
-from ModaFew.base_interface import BaseInterface
-from transformers import LlamaTokenizer
-from ModaFew.utils import image2tensor
+from ModaFew.interface.base_interface import BaseInterface
+from ModaFew.interface.utils import image2tensor
+
 from minigpt4.common.config import Config
 from minigpt4.models import MiniGPT4
 from minigpt4.processors import Blip2ImageEvalProcessor
@@ -23,7 +23,7 @@ def read_default_config(config_path, minigpt4_path, vicuna_path):
         return config
 
     file_path = pathlib.Path(__file__).resolve()
-    root_dir = file_path.parents[2]
+    root_dir = file_path.parents[3]
     minigpt4_repo_path = root_dir / 'requirements_repo' / 'MiniGPT-4'
     config_path = minigpt4_repo_path / 'eval_configs' / 'minigpt4_eval.yaml'
 

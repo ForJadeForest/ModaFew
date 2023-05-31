@@ -3,8 +3,8 @@ from typing import List, Dict
 import torch
 from huggingface_hub import hf_hub_download
 
-from ModaFew.base_interface import BaseInterface
-from ModaFew.utils import IMAGE_TYPE, image2tensor
+from ModaFew.interface.base_interface import BaseInterface
+from ModaFew.interface.utils import IMAGE_TYPE, image2tensor
 from open_flamingo import create_model_and_transforms
 
 
@@ -51,13 +51,13 @@ class FlamingoInterface(BaseInterface):
         }
 
     def model_forward(self, vision_x, lang_x, attention_mask, **kwargs):
-        generated_text = self.model.generate(
+        outputs = self.model.generate(
             vision_x=vision_x,
             lang_x=lang_x,
             attention_mask=attention_mask,
             **kwargs
         )
-        outputs = generated_text[:, len(lang_x[0]) :]
+        outputs = outputs[:, len(lang_x[0]) :]
 
         return self.tokenizer.batch_decode(outputs, skip_special_tokens=True)
 

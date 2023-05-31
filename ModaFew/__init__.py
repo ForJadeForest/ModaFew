@@ -1,3 +1,1 @@
-from .minigpt4_interface import MiniGPT4Interface, MiniGPT4ChatInterface
-from .open_flamingo_interface import FlamingoInterface
-from .base_interface import BaseInterface
+from .interface import *

@@ -3,7 +3,7 @@ from typing import Union, List, Dict, Optional
 
 import torch
 
-from ModaFew.utils import IMAGE_TYPE
+from ModaFew.interface.utils import IMAGE_TYPE
 
 
 class BaseInterface:
