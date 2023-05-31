@@ -1,0 +1,2 @@
+from .minigpt4_chat_interface import MiniGPT4ChatInterface
+from .minigpt4_interface import MiniGPT4Interface

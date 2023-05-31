@@ -1,1 +1,0 @@
-from .load_minigpt4 import MiniGPT4Interface
