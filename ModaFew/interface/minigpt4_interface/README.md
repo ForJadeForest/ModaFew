@@ -25,7 +25,7 @@ example_images = [demo_image_one, demo_image_two]
 vicuna_path = '/data/share/pyz/checkpoint/vicuna-7b'
 minigpt4_path = '/data/share/pyz/checkpoint/prerained_minigpt4_7b.pth'
 
-interface = MiniGPT4Interface(device=device, vicuna_path=vicuna_path, minigpt4_path=minigpt4_path)
+interface = MiniGPT4Interface(device=device, vicuna_path=vicuna_path, minigpt4_path=minigpt4_path, task='caption')
 query_image = Image.open(
     requests.get(
         "http://images.cocodataset.org/test-stuff2017/000000028352.jpg",
@@ -33,8 +33,12 @@ query_image = Image.open(
     ).raw
 )
 texts_input = ["An image of two cats.", "An image of a bathroom sink."]
-query='What\'s the object in the image?'
-answer = interface.few_shot_generation(example_images, texts_input, query_image, query=query)
+texts_input = [{'caption': x} for x in texts_input]
+query={'caption': None}
+answer = interface.few_shot_generation(example_images, 
+                                       texts_input, 
+                                       query_image, 
+                                       queries=query)
 print(f'The few-shot answer: {answer}')
 ```
 
@@ -44,7 +48,7 @@ If you not give one config_path, it will use the default config. But you should 
 
 For weight download, please refer https://github.com/Vision-CAIR/MiniGPT-4.
 
-This is the default config:
+This is the default config (modify from MiniGPT-4/eval_configs/minigpt4_eval.yaml):
 ```yaml
 model:
   arch: mini_gpt4
@@ -53,8 +57,9 @@ model:
   freeze_qformer: True
   max_txt_len: 160
   end_sym: "###"
-  low_resource: True
+  low_resource: False
   prompt_template: '###Human: {} ###Assistant: '
+
 
 datasets:
   cc_sbu_align:
@@ -68,36 +73,13 @@ datasets:
 
 run:
   task: image_text_pretrain
+
 ```
-
-
-## Method 
-1. `zero_shot_generation(self, image, query, **kwargs)`
-    - This function is to do zero-shot inference. 
-      - **image** `Union[Image, str, torch.Tensor]`: The Image you want to use. It can be PIL.Image.Image, the path to the image, or the processed image(torch.tensor).
-      - **query**: str: The query you want to ask the model.
-      - **kwargs**: The parameters for generation
-
-2. `few_shot_generation(self, example_images, example_texts, input_images, query='', **kwargs)`
-   - This function is to do few-shot inference. It will make the input as: 
-        ```
-        Human: <example_image1> + query + Assistant:  + example_text1 +
-        Human: <example_image2> + query + Assistant:  + example_text2 ... + 
-        <input_images> + query + Assistant: 
-        ```
-
-     - **example_images** `List[Union[Image, str, torch.Tensor]]`: The few-shot images you want to use.
-     - **example_texts** `List[str]`: The answer of the query for each few-shot images.
-     - **input_images** `Union[List[Union[Image, str, torch.Tensor]], Image, str, torch.Tensor]`: The query image. Now only support one input.
-     - **query** `str`: The query sentence.
-     - **kwargs**: The parameters for generation
-
-
-3. `reset(self)`
-   - This function is to reset the conversation history.
 
 
 ### Note
 When use batch inference, the config of vicuna-7b should modify the pad_token_id to 2. 
 Because sometimes the will generate the padding token.
 details: https://github.com/huggingface/transformers/issues/22546#issuecomment-1561257076
+
+- Now the result of batch inference has some errors. Constrain the batch size to equal to 1.
