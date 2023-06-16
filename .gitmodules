@@ -4,3 +4,6 @@
 [submodule "requirements_repo/MiniGPT-4"]
 	path = requirements_repo/MiniGPT-4
 	url = https://github.com/ForJadeForest/MiniGPT-4.git
+[submodule "requirements_repo/Otter"]
+	path = requirements_repo/Otter
+	url = https://github.com/ForJadeForest/Otter.git
