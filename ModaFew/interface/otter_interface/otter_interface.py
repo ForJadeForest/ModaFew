@@ -10,8 +10,17 @@ from ModaFew.interface.utils import IMAGE_TYPE, image2tensor
 class OtterInterface(BaseInterface):
     def __init__(self, model_path, precision, device, task):
         super(OtterInterface).__init__(task)
+        if precision == 'fp16':
+            m_type = torch.float16
+        elif precision == 'bf16':
+            m_type = torch.bfloat16
+        elif precision == 'fp32':
+            m_type = torch.float32
+        else:
+            m_type = torch.float16
+            print(f'precision got None value or error value: {precision}, now use fp16')
         self.model = OtterForConditionalGeneration.from_pretrained(model_path, 
-                                                                   torch_dtype=torch.float16, 
+                                                                   torch_dtype=m_type, 
                                                                    device_map="auto")
         self.image_processor = transformers.CLIPImageProcessor()
         self.tokenizer = self.model.tokenizer
