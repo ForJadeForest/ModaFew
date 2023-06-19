@@ -94,5 +94,5 @@ class FlamingoInterface(BaseInterface):
         return f"<image>Output:{caption if caption is not None else ''}{'<|endofchunk|>' if caption is not None else ''}"
 
     @staticmethod
-    def classification_prompt(self, class_str=None) -> str:
+    def classification_prompt(class_str=None) -> str:
         return f"<image>A photo of a {class_str if class_str is not None else ''}{'<|endofchunk|>' if class_str is not None else ''}"
