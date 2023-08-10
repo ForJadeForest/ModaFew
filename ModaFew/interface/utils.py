@@ -18,3 +18,16 @@ def image2tensor(image: IMAGE_TYPE, vis_processor):
     else:
         raise ValueError()
     return image
+
+
+def cast_type(precision):
+    precision_list = ['fp16', 'bf16', 'fp32']
+    if precision == 'fp16':
+        return torch.float16
+    elif precision == 'bf16':
+        return torch.bfloat16
+    elif precision == 'fp32':
+        return torch.float32
+    else:
+        raise ValueError(
+            f'the precision should in {precision_list}, but got {precision}')
