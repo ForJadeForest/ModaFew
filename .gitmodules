@@ -3,4 +3,4 @@
 	url = https://github.com/ForJadeForest/MiniGPT-4.git
 [submodule "requirements_repo/open_flamingo"]
 	path = requirements_repo/open_flamingo
-	url = https://github.com/mlfoundations/open_flamingo.git
+	url = https://github.com/ForJadeForest/open_flamingo.git
