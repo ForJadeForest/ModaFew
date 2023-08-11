@@ -42,7 +42,7 @@ class FlamingoInterface(BaseInterface):
             tokenizer_path=tokenizer_path,
             cross_attn_every_n_layers=cross_attn_every_n_layers
         )
-        # self.precision = precision
+
         self.data_type = cast_type(precision)
         self.device = device
         self.autocast_args = {
@@ -51,9 +51,9 @@ class FlamingoInterface(BaseInterface):
         }
         # load model weight
         model_state = torch.load(flamingo_checkpoint_path)
-        self.model.load_state_dict(model_state, strict=False).eval()
+        self.model.load_state_dict(model_state, strict=False)
         self.model = self.model.to(device, dtype=self.data_type)
-
+        self.model.eval()
         self.tokenizer.padding_side = "left"
 
     def get_model_input(self, images_list: List[List[IMAGE_TYPE]], texts_list: List[List[str]]) -> Dict:
